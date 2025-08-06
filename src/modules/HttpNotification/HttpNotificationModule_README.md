@@ -21,7 +21,7 @@ A universal HTTP notification module that sends HTTP requests when specific mess
 
 ## Configuration
 
-Edit `src/modules/HttpNotificationConfig.h` to customize the module:
+Edit `src/modules/HttpNotification/HttpNotificationConfig.h` to customize the module:
 
 ```cpp
 // Command prefix that triggers HTTP notifications
@@ -65,7 +65,7 @@ Sends: `https://your-webhook.com/endpoint?text=%7B%22event%22%3A%20%22message%22
 
 ## Setup Instructions
 
-1. **Configure the endpoint URL** in `HttpNotificationConfig.h`
+1. **Configure the endpoint URL** in `HttpNotification/HttpNotificationConfig.h`
 2. **Build the firmware** with the module included
 3. **Flash to your device**
 4. **Send messages** starting with `/tg` followed by your message

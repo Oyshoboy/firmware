@@ -45,7 +45,7 @@
 #endif
 #include "modules/RoutingModule.h"
 #include "modules/TextMessageModule.h"
-#include "modules/HttpNotificationModule.h"
+#include "modules/HttpNotification/HttpNotificationModule.h"
 #if !MESHTASTIC_EXCLUDE_TRACEROUTE
 #include "modules/TraceRouteModule.h"
 #endif
