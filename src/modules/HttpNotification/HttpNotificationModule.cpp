@@ -80,7 +80,13 @@ void HttpNotificationModule::sendHttpNotification(const char* message)
         return;
     }
     
-    char* encodedMessage = urlEncode(message);
+    char meshId[16];
+    snprintf(meshId, sizeof(meshId), "%04x", nodeDB->getNodeNum() & 0xFFFF);
+    
+    char fullMessage[HTTP_NOTIFICATION_MAX_URL_LENGTH];
+    snprintf(fullMessage, sizeof(fullMessage), "mesh %s: %s", meshId, message);
+    
+    char* encodedMessage = urlEncode(fullMessage);
     if (!encodedMessage) {
         LOG_ERROR("HTTP Notification: Failed to encode message\n");
         return;
