@@ -23,8 +23,17 @@ ProcessMessage HttpNotificationModule::handleReceived(const meshtastic_MeshPacke
         memcpy(payload, p.payload.bytes, p.payload.size);
         payload[p.payload.size] = '\0';
         
-        if (isHttpCommand(payload, p.payload.size)) {
-            processHttpCommand(payload, p.payload.size);
+        // Get sender short ID and format message
+        NodeNum senderNodeNum = mp.from;
+        
+        if (senderNodeNum != nodeDB->getNodeNum()) {
+            char senderShortId[8];
+            snprintf(senderShortId, sizeof(senderShortId), "%04x", senderNodeNum & 0xFFFF);
+            
+            // Format message as "shortID: message"
+            char messageWithSender[HTTP_NOTIFICATION_MAX_URL_LENGTH];
+            snprintf(messageWithSender, sizeof(messageWithSender), "%s: %s", senderShortId, payload);
+            sendHttpNotification(messageWithSender);
         }
     }
     
