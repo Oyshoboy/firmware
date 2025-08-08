@@ -27,13 +27,7 @@ ProcessMessage HttpNotificationModule::handleReceived(const meshtastic_MeshPacke
         NodeNum senderNodeNum = mp.from;
         
         if (senderNodeNum != nodeDB->getNodeNum()) {
-            char senderShortId[8];
-            snprintf(senderShortId, sizeof(senderShortId), "%04x", senderNodeNum & 0xFFFF);
-            
-            // Format message as "shortID: message"
-            char messageWithSender[HTTP_NOTIFICATION_MAX_URL_LENGTH];
-            snprintf(messageWithSender, sizeof(messageWithSender), "%s: %s", senderShortId, payload);
-            sendHttpNotification(messageWithSender);
+            sendHttpNotification(payload);
         }
     }
     
@@ -93,7 +87,7 @@ void HttpNotificationModule::sendHttpNotification(const char* message)
     snprintf(meshId, sizeof(meshId), "%04x", nodeDB->getNodeNum() & 0xFFFF);
     
     char fullMessage[HTTP_NOTIFICATION_MAX_URL_LENGTH];
-    snprintf(fullMessage, sizeof(fullMessage), "mesh %s: %s", meshId, message);
+    snprintf(fullMessage, sizeof(fullMessage), "%s: %s", meshId, message);
     
     char* encodedMessage = urlEncode(fullMessage);
     if (!encodedMessage) {
